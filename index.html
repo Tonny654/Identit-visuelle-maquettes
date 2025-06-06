@@ -7,24 +7,40 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h2>🚀 FocusBoost</h2>
-    <nav>
-      <a href="index.html">Accueil</a>
-      <a href="./PG/Timer/index.html">Timer</a>
-      <a href="./PG/Dashboard/index.html">Tableau de bord</a>
-    </nav>
-  </header>
+<header>
+  <h2>🚀 FocusBoost</h2>
+  <button class="menu-toggle" id="menu-btn">☰</button>
+  <nav id="menu">
+    <a href="./index.html">Accueil</a>
+    <a href="./PG/Timer/index.html">Timer</a>
+    <a href="./PG/Dashboard/index.html">Tableau de bord</a>
+  </nav>
+</header>
+
+
+  <body class="animated-home">
+
 
   <main>
     <section class="hero">
       <h1>Boost Your Productivity</h1>
-      <p>La concentration, sans distraction..</p>
+      <p class="Slogan">La concentration, sans distraction..!</p>
       <p>Reste concentré·e, bloque les distractions et gagne des récompenses.</p>
       <a href="./PG/Timer/index.html" class="btn">Commencer</a>
     </section>
+
   </main>
 
   <footer style="text-align:center; padding:1rem; font-size:.875rem;">© 2025 FocusBoost Tonny</footer>
+
+  <script>
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  menuBtn.addEventListener('click', () => {
+    menu.classList.toggle('open');
+  });
+</script>
+
 </body>
 </html>

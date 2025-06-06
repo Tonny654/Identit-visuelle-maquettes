@@ -9,14 +9,16 @@
 <body>
   <canvas id="particles-bg"></canvas>
 
-  <header>
-    <h2>🚀 FocusBoost</h2>
-    <nav>
-      <a href="../../index.html">Accueil</a>
-      <a href="../Timer/index.html">Timer</a>
-      <a href="../Dashboard/index.html">Tableau de bord</a>
-    </nav>
-  </header>
+<header>
+  <h2>🚀 FocusBoost</h2>
+  <button class="menu-toggle" id="menu-btn">☰</button>
+  <nav id="menu">
+    <a href="../../index.html">Accueil</a>
+    <a href="../Timer/index.html">Timer</a>
+    <a href="../Dashboard/index.html">Tableau de bord</a>
+  </nav>
+</header>
+
 
   <main>
     <div class="timer-container">
@@ -28,8 +30,26 @@
       </div>
     </div>
 
+        <section style="margin-top:3rem; text-align:center;">
+  <h3>🎵 Musique de concentration</h3>
+  <audio controls>
+    <source src="../../assets/img/mp3/ancient-frequencies-atonal-meditation-112529.mp3" type="audio/mpeg">
+    Votre navigateur ne supporte pas l'audio.
+  </audio>
+</section>
+
   </main>
 <script src="script.js"></script>
   <footer style="text-align:center; padding:1rem; font-size:.875rem;">© 2025 FocusBoost Tonny</footer>
+
+  <script>
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  menuBtn.addEventListener('click', () => {
+    menu.classList.toggle('open');
+  });
+</script>
+
 </body>
 </html>

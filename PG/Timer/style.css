@@ -50,12 +50,14 @@
     box-shadow:0 10px 25px rgba(0,0,0,.05);
     text-align:center;
   }
+
   .timer {
     font-size:4rem;
     font-weight:700;
     margin-bottom:1.5rem;
     color:var(--primary);
   }
+  
   .controls button {
     margin:0 0.5rem;
   }
@@ -82,4 +84,52 @@
   z-index: -1;
   background: #0d3b66;
 }
+
+
+/* ----- Responsive Nav ----- */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--light);
+  cursor: pointer;
+}
+
+audio {
+  margin-top: 1rem;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 1rem;
+}
+
+h3 {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  nav {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+  }
+
+  nav.open {
+    display: flex;
+  }
+}
+
 

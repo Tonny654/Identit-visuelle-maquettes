@@ -17,13 +17,18 @@
 
     function tick() {
       if (timeLeft > 0) {
-        timeLeft--;
-        updateDisplay();
-      } else {
-        clearInterval(interval);
-        alert('Session terminée ! Faites une pause.');
-      }
-    }
+          timeLeft--;
+         updateDisplay();
+        } else {
+    clearInterval(interval);
+    alert('Session terminée ! Faites une pause.');
+
+    // Incrémenter compteur localStorage
+    let sessions = Number(localStorage.getItem('focus_sessions') || 0);
+    localStorage.setItem('focus_sessions', sessions + 1);
+  }
+}
+
 
     startBtn.onclick = () => {
       if (!interval) interval = setInterval(tick, 1000);
