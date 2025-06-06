@@ -41,6 +41,17 @@
 
   main { flex:1; padding:2rem; }
 
+   h1 {
+    color:#0408fb;
+    margin-bottom:1rem;
+  }
+
+  h1:hover {
+    color: #7476ff;
+    text-shadow: 0 0 10px rgba(116, 118, 255, 0.5);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
 
 
 
