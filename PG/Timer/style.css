@@ -1,0 +1,61 @@
+  :root {
+    --primary: #0d3b66; /* Deep blue */
+    --accent: #3fa7d6;  /* Lighter blue */
+    --light: #ffffff;
+    --bg: #f5f7fa;
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Inter', sans-serif;
+    background:var(--bg);
+    color:#1c1c1c;
+    line-height:1.6;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  header {
+    background:var(--primary);
+    color:var(--light);
+    padding:1rem 2rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  header nav a {
+    color:var(--light);
+    margin-left:1.5rem;
+    text-decoration:none;
+    font-weight:600;
+  }
+  header nav a:hover { text-decoration:underline; }
+
+  main { flex:1; padding:2rem; }
+
+ /* Timer Styles */
+  .timer-container {
+    max-width:400px;
+    margin:3rem auto;
+    background:var(--light);
+    padding:2rem;
+    border-radius:1rem;
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+    text-align:center;
+  }
+  .timer {
+    font-size:4rem;
+    font-weight:700;
+    margin-bottom:1.5rem;
+    color:var(--primary);
+  }
+  .controls button {
+    margin:0 0.5rem;
+  }
