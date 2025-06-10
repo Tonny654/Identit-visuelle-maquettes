@@ -6,7 +6,6 @@
   <title>FocusBoost – Timer</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<>
   <canvas id="particles-bg"></canvas>
 
 <header>
@@ -21,14 +20,31 @@
 
 
   <main>
-    <div class="timer-container">
-      <div class="timer" id="display">25:00</div>
+    <section class="dog-zone">
+      <div id="dog" class="dog">🐶</div>
+      <div id="donut-counter">🍩 0</div>
+    </section>
+
+    <section class="timer-zone">
+      <label for="minutes">Objectif (minutes)&nbsp;:</label>
+      <input type="number" id="minutes" min="1" value="1" />
+      <div id="display">1</div>
+
       <div class="controls">
-        <button class="btn" id="start">Start</button>
-        <button class="btn" id="pause">Pause</button>
-        <button class="btn" id="reset">Reset</button>
+        <button id="start">Démarrer</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Réinitialiser</button>
       </div>
-    </div>
+
+      <p id="message"></p>
+    </section>
+  </main>
+
+  <audio id="success-sound" src="../../assets/sound/success-340660.mp3" preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
         <section style="margin-top:3rem; text-align:center;">
   <h3>🎵 Musique de concentration</h3>
@@ -140,6 +156,15 @@
 <script>
 // 🎉 Jouer le son
 audio.play();
+</script>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const menu = document.getElementById('menu');
+
+      menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('open');
+  });
 </script>
 
 </body>

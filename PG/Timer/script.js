@@ -1,119 +1,111 @@
- // --- Simple Pomodoro logic ---   
-    
-    const display = document.getElementById('display');
-    const startBtn = document.getElementById('start');
-    const pauseBtn = document.getElementById('pause');
-    const resetBtn = document.getElementById('reset');
+// Sélecteurs
+const display = document.getElementById('display');
+const minutesInput = document.getElementById('minutes');
+const startBtn = document.getElementById('start');
+const pauseBtn = document.getElementById('pause');
+const resetBtn = document.getElementById('reset');
+const donutCounter = document.getElementById('donut-counter');
+const dog = document.getElementById('dog');
+const message = document.getElementById('message');
+const sound = document.getElementById('success-sound');
 
-    let workMinutes = 25;
-    let timeLeft = workMinutes * 60; // seconds
-    let interval = null;
+// Variables
+let interval = null;
+let endTime = null;
 
-    function updateDisplay() {
-      const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-      const secs = String(timeLeft % 60).padStart(2, '0');
-      display.textContent = `${mins}:${secs}`;
-    }
+// ----- Fonctions utiles -----
+function formatTime(seconds) {
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  return `${m}:${s}`;
+}
 
-    function tick() {
-      if (timeLeft > 0) {
-          timeLeft--;
-         updateDisplay();
-        } else {
+function updateDisplay() {
+  const diff = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+  display.textContent = formatTime(diff);
+
+  if (diff <= 0) {
     clearInterval(interval);
-    alert('Session terminée ! Faites une pause.');
+    interval = null;
+    endTime = null;
+    localStorage.removeItem('focusdog_end');
 
-if (timeLeft > 0) {
-  timeLeft--;
-  updateDisplay();
-} else {
+    // Mettre à jour les donuts
+    let donuts = Number(localStorage.getItem('focusdog_donuts') || 0) + 1;
+    localStorage.setItem('focusdog_donuts', donuts);
+    donutCounter.textContent = `🍩 ${donuts}`;
+
+    // Animation & son
+    dog.classList.add('eat');
+    sound.play();
+    message.textContent = 'Bravo ! Focus a reçu un donut !';
+
+    setTimeout(() => dog.classList.remove('eat'), 800);
+  }
+}
+
+// ----- Contrôles -----
+function startTimer() {
+  if (interval) return; // déjà en cours
+  let minutes = parseInt(minutesInput.value, 10) || 25;
+  if (!endTime) {
+    endTime = Date.now() + minutes * 60 * 1000;
+    localStorage.setItem('focusdog_end', endTime);
+  }
+  interval = setInterval(updateDisplay, 1000);
+  message.textContent = 'Concentration en cours…';
+}
+
+function pauseTimer() {
+  if (!interval) return;
   clearInterval(interval);
-  alert('Session terminée ! Faites une pause.');
-  
-
-  // Incrémenter le compteur de sessions
-  let sessions = Number(localStorage.getItem('focus_sessions') || 0);
-  localStorage.setItem('focus_sessions', sessions + 1);
-
-  // Incrémenter le compteur de récompenses
-  let rewards = Number(localStorage.getItem('focus_rewards') || 0);
-  localStorage.setItem('focus_rewards', rewards + 1);
+  interval = null;
+  localStorage.removeItem('focusdog_end');
+  // Sauvegarder le temps restant
+  const remaining = Math.max(0, endTime - Date.now());
+  localStorage.setItem('focusdog_remaining', remaining);
+  endTime = null;
+  message.textContent = 'En pause';
 }
 
-
-    // Incrémenter compteur localStorage
-    let sessions = Number(localStorage.getItem('focus_sessions') || 0);
-    localStorage.setItem('focus_sessions', sessions + 1);
-  }
-
-const audio = document.getElementById('congrats-sound');
-
-// Ajouter l'horodatage à l'historique
-let history = JSON.parse(localStorage.getItem('focus_history') || '[]');
-history.push(Date.now());
-localStorage.setItem('focus_history', JSON.stringify(history));
-  
-
+function resetTimer() {
+  clearInterval(interval);
+  interval = null;
+  endTime = null;
+  localStorage.removeItem('focusdog_end');
+  localStorage.removeItem('focusdog_remaining');
+  display.textContent = formatTime((parseInt(minutesInput.value, 10) || 25) * 60);
+  message.textContent = '';
 }
 
+startBtn.onclick = startTimer;
+pauseBtn.onclick = pauseTimer;
+resetBtn.onclick = resetTimer;
 
-    startBtn.onclick = () => {
-      if (!interval) interval = setInterval(tick, 1000);
-    };
-    pauseBtn.onclick = () => {
-      clearInterval(interval);
-      interval = null;
-    };
-    resetBtn.onclick = () => {
-      clearInterval(interval);
-      interval = null;
-      timeLeft = workMinutes * 60;
-      updateDisplay();
-    };
+// ----- Au chargement -----
+window.addEventListener('load', () => {
+  // Afficher les donuts
+  const donuts = Number(localStorage.getItem('focusdog_donuts') || 0);
+  donutCounter.textContent = `🍩 ${donuts}`;
 
-    // initial
+  // Reprendre un timer en cours
+  const savedEnd = localStorage.getItem('focusdog_end');
+  if (savedEnd) {
+    endTime = Number(savedEnd);
     updateDisplay();
-
-
-  const canvas = document.getElementById('particles-bg');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  for (let i = 0; i < 100; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.7,
-      vy: (Math.random() - 0.5) * 0.7,
-      size: Math.random() * 2 + 1,
-      alpha: Math.random() * 0.5 + 0.3,
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let p of particles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
-      ctx.fill();
-
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    interval = setInterval(updateDisplay, 1000);
+  } else {
+    // Reprendre un timer en pause
+    const remaining = Number(localStorage.getItem('focusdog_remaining') || 0);
+    if (remaining > 0) {
+      endTime = Date.now() + remaining;
+      localStorage.setItem('focusdog_end', endTime);
+      localStorage.removeItem('focusdog_remaining');
+      updateDisplay();
+      interval = setInterval(updateDisplay, 1000);
+    } else {
+      // Aucun timer => afficher valeur par défaut
+      display.textContent = formatTime((parseInt(minutesInput.value, 10) || 25) * 60);
     }
-    requestAnimationFrame(draw);
   }
-
-  draw();
-
-
+});
