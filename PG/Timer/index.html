@@ -10,7 +10,7 @@
   <canvas id="particles-bg"></canvas>
 
 <header>
-  <h2>🚀 FocusBoost</h2>
+  <h2 class="title">🚀 FocusBoost</h2>
   <button class="menu-toggle" id="menu-btn">☰</button>
   <nav id="menu">
     <a href="../../index.html">Accueil</a>
@@ -38,17 +38,109 @@
   </audio>
 </section>
 
+<audio id="congrats-sound" src="../../assets/img/mp3/sci-fi-congratulations-message-notification-sound-sfx-334728.mp3" preload="auto"></audio>
+
+
   </main>
 <script src="script.js"></script>
   <footer style="text-align:center; padding:1rem; font-size:.875rem;">© 2025 FocusBoost Tonny</footer>
 
   <script>
-  const menuBtn = document.getElementById('menu-btn');
-  const menu = document.getElementById('menu');
+ <script>
+  const display = document.getElementById('display');
+  const startBtn = document.getElementById('start');
+  const pauseBtn = document.getElementById('pause');
+  const resetBtn = document.getElementById('reset');
+  const audio = document.getElementById('congrats-sound');
 
-  menuBtn.addEventListener('click', () => {
-    menu.classList.toggle('open');
-  });
+  let interval = null;
+  const workMinutes = 25;
+  let endTime = null;
+
+  function updateDisplayFromNow() {
+    const now = Date.now();
+    const diff = Math.max(0, Math.floor((endTime - now) / 1000));
+
+    const mins = String(Math.floor(diff / 60)).padStart(2, '0');
+    const secs = String(diff % 60).padStart(2, '0');
+    display.textContent = `${mins}:${secs}`;
+
+    if (diff <= 0) {
+      clearInterval(interval);
+      interval = null;
+      localStorage.removeItem('focus_endTime');
+
+      alert('Session terminée ! Faites une pause.');
+      audio.play();
+
+      // Ajouter une session
+      let sessions = Number(localStorage.getItem('focus_sessions') || 0);
+      localStorage.setItem('focus_sessions', sessions + 1);
+
+      // Ajouter une récompense
+      let rewards = Number(localStorage.getItem('focus_rewards') || 0);
+      localStorage.setItem('focus_rewards', rewards + 1);
+    }
+  }
+
+  function startTimer() {
+    if (!endTime) {
+      endTime = Date.now() + workMinutes * 60 * 1000;
+      localStorage.setItem('focus_endTime', endTime);
+    }
+    if (!interval) {
+      interval = setInterval(updateDisplayFromNow, 1000);
+    }
+  }
+
+  function pauseTimer() {
+    clearInterval(interval);
+    interval = null;
+
+    const now = Date.now();
+    const remaining = endTime - now;
+    localStorage.setItem('focus_remaining', remaining);
+    localStorage.removeItem('focus_endTime');
+  }
+
+  function resetTimer() {
+    clearInterval(interval);
+    interval = null;
+    endTime = null;
+    localStorage.removeItem('focus_endTime');
+    localStorage.removeItem('focus_remaining');
+    display.textContent = '25:00';
+  }
+
+  startBtn.onclick = () => {
+    if (!endTime) {
+      const saved = localStorage.getItem('focus_remaining');
+      if (saved) {
+        endTime = Date.now() + Number(saved);
+        localStorage.setItem('focus_endTime', endTime);
+        localStorage.removeItem('focus_remaining');
+      }
+    }
+    startTimer();
+  };
+
+  pauseBtn.onclick = pauseTimer;
+  resetBtn.onclick = resetTimer;
+
+  // Au chargement : récupérer une session active
+  const savedEnd = localStorage.getItem('focus_endTime');
+  if (savedEnd) {
+    endTime = Number(savedEnd);
+    updateDisplayFromNow();
+    interval = setInterval(updateDisplayFromNow, 1000);
+  } else {
+    display.textContent = '25:00';
+  }
+</script>
+
+// 🎉 Jouer le son
+audio.play();
+
 </script>
 
 </body>

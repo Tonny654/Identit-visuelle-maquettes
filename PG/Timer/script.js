@@ -23,10 +23,37 @@
     clearInterval(interval);
     alert('Session terminée ! Faites une pause.');
 
+if (timeLeft > 0) {
+  timeLeft--;
+  updateDisplay();
+} else {
+  clearInterval(interval);
+  alert('Session terminée ! Faites une pause.');
+  
+
+  // Incrémenter le compteur de sessions
+  let sessions = Number(localStorage.getItem('focus_sessions') || 0);
+  localStorage.setItem('focus_sessions', sessions + 1);
+
+  // Incrémenter le compteur de récompenses
+  let rewards = Number(localStorage.getItem('focus_rewards') || 0);
+  localStorage.setItem('focus_rewards', rewards + 1);
+}
+
+
     // Incrémenter compteur localStorage
     let sessions = Number(localStorage.getItem('focus_sessions') || 0);
     localStorage.setItem('focus_sessions', sessions + 1);
   }
+
+const audio = document.getElementById('congrats-sound');
+
+// Ajouter l'horodatage à l'historique
+let history = JSON.parse(localStorage.getItem('focus_history') || '[]');
+history.push(Date.now());
+localStorage.setItem('focus_history', JSON.stringify(history));
+  
+
 }
 
 
@@ -88,3 +115,5 @@
   }
 
   draw();
+
+

@@ -55,8 +55,15 @@
       </div>
       <div class="card">
         <h3>Récompenses</h3>
-        <p>—</p>
+        <p id="reward-count">—</p>
+
       </div>
+
+      <section class="history" style="margin-top:3rem;">
+  <h2 style="text-align:center; margin-bottom:1rem;">📅 Historique des sessions</h2>
+  <ul id="history-list" style="max-width:600px; margin:auto; list-style:none; padding:0;"></ul>
+</section>
+
     </section>
     <p style="text-align:center; margin-top:2rem; font-style:italic;">
       ⏳ Les données seront disponibles dans une future version.
@@ -72,6 +79,48 @@
   menuBtn.addEventListener('click', () => {
     menu.classList.toggle('open');
   });
+
+  <script>
+  const countEl = document.getElementById('session-count');
+  const rewardsEl = document.getElementById('reward-count');
+
+  const sessions = localStorage.getItem('focus_sessions') || 0;
+  const rewards = localStorage.getItem('focus_rewards') || 0;
+
+  countEl.textContent = sessions;
+  rewardsEl.textContent = rewards + " 🎁";
+
+  <script>
+  // Afficher les stats
+  const countEl = document.getElementById('session-count');
+  const rewardsEl = document.getElementById('reward-count');
+  const sessions = localStorage.getItem('focus_sessions') || 0;
+  const rewards = localStorage.getItem('focus_rewards') || 0;
+  countEl.textContent = sessions;
+  rewardsEl.textContent = rewards + " 🎁";
+
+  // Historique
+  const list = document.getElementById('history-list');
+  const history = JSON.parse(localStorage.getItem('focus_history') || '[]');
+
+  history.reverse().forEach(timestamp => {
+    const date = new Date(timestamp);
+    const item = document.createElement('li');
+    item.style.padding = "0.5rem 0";
+    item.textContent = `🕒 ${date.toLocaleDateString()} à ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    list.appendChild(item);
+  });
+
+  if (history.length === 0) {
+    const empty = document.createElement('p');
+    empty.style.textAlign = "center";
+    empty.textContent = "Aucune session enregistrée pour l'instant.";
+    document.querySelector('.history').appendChild(empty);
+  }
+</script>
+
+</script>
+
 </script>
 
 </body>
