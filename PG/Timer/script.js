@@ -109,3 +109,12 @@ window.addEventListener('load', () => {
     }
   }
 });
+
+// Réinitialisation des donuts
+document.getElementById('reset-donuts').onclick = () => {
+  if (confirm("Es-tu sûr·e de vouloir remettre les donuts à zéro ?")) {
+    localStorage.setItem('focusdog_donuts', 0);
+    donutCounter.textContent = '🍩 0';
+    message.textContent = 'Donuts réinitialisés 🍩';
+  }
+};

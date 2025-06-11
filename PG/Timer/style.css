@@ -109,6 +109,23 @@ main {
   }
 }
 
+.reset-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+
 /* ----- Responsive Nav ----- */
 .menu-toggle {
   display: none;
