@@ -103,7 +103,7 @@
               0 0 32px rgba(63, 167, 214, 0.2);
 }
 
-/* ----- Responsive Nav ----- */
+
 .menu-toggle {
   display: none;
   background: none;
@@ -112,6 +112,14 @@
   color: var(--light);
   cursor: pointer;
 }
+
+audio {
+  margin-top: 1rem;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 1rem;
+}
+
 
 @media (max-width: 768px) {
   header {
@@ -137,5 +145,6 @@
     display: flex;
   }
 }
+
 
 
